@@ -12,4 +12,5 @@ public interface BankAccountDao {
 	public boolean addNewBankAccount(BankAccount account);
 	public List<BankAccount> findAllBankAccount();
 	public BankAccount searchBankAccount(long accountId);
+	public boolean updateAccount(BankAccount account1);
 }

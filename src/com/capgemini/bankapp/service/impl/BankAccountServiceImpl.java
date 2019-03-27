@@ -73,5 +73,9 @@ public class BankAccountServiceImpl implements BankAccountService {
 	 
 		return bankAccountDao.searchBankAccount(accountId);
 	}
+	@Override
+	public boolean updateAccount(BankAccount account1) {
+		return bankAccountDao.updateAccount(account1);
+	}
 
 }

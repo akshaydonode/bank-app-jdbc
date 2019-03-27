@@ -7,12 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.capgemini.bankapp.client.BankAccountClient;
 import com.capgemini.bankapp.dao.BankAccountDao;
 import com.capgemini.bankapp.model.BankAccount;
 import com.capgemini.bankapp.util.DbUtil;
 
 public class BankAccountDaoImpl implements BankAccountDao {
 
+	static final Logger logger = Logger.getLogger(BankAccountDaoImpl.class);
+	
 	@Override
 	public double getBalance(long accountId) {
 
@@ -25,7 +30,9 @@ public class BankAccountDaoImpl implements BankAccountDao {
 			result.next();
 			balance = result.getDouble(1);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.error("Exception :", e);
+			//System.out.println("no such account id");
 		}
 		return balance;
 	}
@@ -133,6 +140,30 @@ public class BankAccountDaoImpl implements BankAccountDao {
 
 	}
 		return account;
+	}
+
+	@Override
+	public boolean updateAccount(BankAccount account1) {
+		String query = "UPDATE bankaccounts SET customer_name = ?, account_type = ? where account_id=" + account1.getAccountId();
+		
+		try (Connection connection = DbUtil.getConnection();
+				PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setString(1, account1.getAccountHolderName());
+			statement.setString(2, account1.getAccountType());
+	
+
+			int result = statement.executeUpdate();
+			if (result > 0) {
+				//System.out.println("Your account created successfully...");
+				return true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 }
 

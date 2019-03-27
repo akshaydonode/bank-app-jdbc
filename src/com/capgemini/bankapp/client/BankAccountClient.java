@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.capgemini.bankapp.exception.LowBalanceException;
 import com.capgemini.bankapp.model.BankAccount;
 import com.capgemini.bankapp.service.BankAccountService;
 import com.capgemini.bankapp.service.impl.BankAccountServiceImpl;
 
 public class BankAccountClient {
+	// in between () we can fully qualified class name
+	static final Logger logger = Logger.getLogger(BankAccountClient.class);
 
 	public static void main(String[] args) {
 
@@ -63,8 +67,13 @@ public class BankAccountClient {
 					accountId = Long.parseLong(reader.readLine());
 					System.out.println("Enter amount :");
 					accountBalance = Double.parseDouble(reader.readLine());
-					balance = bankService.withdraw(accountId, accountBalance);
-					System.out.println(balance);
+					try {
+						balance = bankService.withdraw(accountId, accountBalance);
+						System.out.println(balance);
+					} catch (LowBalanceException e) {
+						logger.error("Exception :", e);
+					}
+
 					break;
 
 				case 4:
@@ -83,9 +92,13 @@ public class BankAccountClient {
 					accountId1 = Long.parseLong(reader.readLine());
 					System.out.println("Enter amount");
 					accountBalance = Double.parseDouble(reader.readLine());
+					try {
+						balance = bankService.fundTransfer(accountId, accountId1, accountBalance);
+						System.out.println(balance);
+					} catch (LowBalanceException e) {
+						logger.error("Exception :", e);
+					}
 
-					balance = bankService.fundTransfer(accountId, accountId1, accountBalance);
-					System.out.println(balance);
 					break;
 
 				case 6:
@@ -116,33 +129,20 @@ public class BankAccountClient {
 					accountId = Long.parseLong(reader.readLine());
 					BankAccount bankaccount1 = bankService.searchBankAccount(accountId);
 					System.out.println(bankaccount1);
-					System.out.println("1. Edit Account Holder Name \n2. Edit Account Type");
-					System.out.println("Enter Your Choice");
-					choice1 = Integer.parseInt(reader.readLine());
 
-					switch (choice1) {
-
-					case 1:
-						System.out.println("Enter your name :");
-						accountHolderName = reader.readLine();
-						accountType = bankaccount1.getAccountType();
-						accountBalance = bankaccount1.getAccountBalance();
-						BankAccount account1 = new BankAccount(accountHolderName, accountType, accountBalance);
-						if (bankService.addNewBankAccount(account1)) {
-							System.out.println("Your account updated successfully");
-						} else {
-							System.out.println("Failed to update account...");
-						}
-						
-						break;
-
-					case 2:
-						break;
-
-					default:
-						System.out.println("Enter Valid Choice");
-						break;
+					accountId = bankaccount1.getAccountId();
+					System.out.println("Enter your new name :");
+					accountHolderName = reader.readLine();
+					System.out.println("Enter your new account type:");
+					accountType = reader.readLine();
+					accountBalance = bankaccount1.getAccountBalance();
+					BankAccount account1 = new BankAccount(accountId,accountHolderName, accountType, accountBalance);
+					if (bankService.updateAccount(account1)) {
+						System.out.println("Your account updated successfully");
+					} else {
+						System.out.println("Failed to update account...");
 					}
+					break;
 
 				case 10:
 					System.out.println("Thanks for banking with us");
@@ -154,11 +154,7 @@ public class BankAccountClient {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LowBalanceException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-
+			// logger.error(e);
 		}
 	}
 

@@ -1,0 +1,29 @@
+2019-03-27 11:57:20 - 1 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Exception :
+ com.capgemini.bankapp.exception.LowBalanceException: You don't have sufficient fund..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdraw(BankAccountServiceImpl.java:35)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:70)
+2019-03-27 12:23:33 - 1 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Exception :
+ com.capgemini.bankapp.exception.LowBalanceException: You don't have sufficient fund..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdraw(BankAccountServiceImpl.java:35)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:71)
+2019-03-27 12:25:46 - 1 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Exception :
+ com.capgemini.bankapp.exception.LowBalanceException: You don't have sufficient fund..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdraw(BankAccountServiceImpl.java:35)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:71)
+2019-03-27 12:28:52 - 0 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Exception :
+ com.capgemini.bankapp.exception.LowBalanceException: You don't have sufficient fund..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdraw(BankAccountServiceImpl.java:35)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:71)
+2019-03-27 19:22:57 - 1 - [main] ERROR com.capgemini.bankapp.dao.impl.BankAccountDaoImpl  - Exception :
+ java.sql.SQLException: Illegal operation on empty result set.
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1056)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:957)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:927)
+	at com.mysql.jdbc.ResultSetImpl.checkRowPos(ResultSetImpl.java:817)
+	at com.mysql.jdbc.ResultSetImpl.getStringInternal(ResultSetImpl.java:5514)
+	at com.mysql.jdbc.ResultSetImpl.getString(ResultSetImpl.java:5434)
+	at com.mysql.jdbc.ResultSetImpl.getDoubleInternal(ResultSetImpl.java:2367)
+	at com.mysql.jdbc.ResultSetImpl.getDouble(ResultSetImpl.java:2328)
+	at com.capgemini.bankapp.dao.impl.BankAccountDaoImpl.getBalance(BankAccountDaoImpl.java:31)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.checkBalance(BankAccountServiceImpl.java:21)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:61)
