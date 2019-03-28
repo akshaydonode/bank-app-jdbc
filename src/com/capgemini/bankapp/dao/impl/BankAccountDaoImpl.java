@@ -16,23 +16,20 @@ import com.capgemini.bankapp.util.DbUtil;
 
 public class BankAccountDaoImpl implements BankAccountDao {
 
-	static final Logger logger = Logger.getLogger(BankAccountDaoImpl.class);
-	
 	@Override
 	public double getBalance(long accountId) {
 
 		String query = "SELECT account_balance FROM bankaccounts WHERE account_id = " + accountId;
-		double balance = 0;
+		double balance = -1;
 
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query);
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query);
 				ResultSet result = statement.executeQuery()) {
-			result.next();
-			balance = result.getDouble(1);
+			if (result.next())
+				balance = result.getDouble(1);
 		} catch (SQLException e) {
-			//e.printStackTrace();
-			logger.error("Exception :", e);
-			//System.out.println("no such account id");
+			e.printStackTrace();
+
 		}
 		return balance;
 	}
@@ -42,8 +39,8 @@ public class BankAccountDaoImpl implements BankAccountDao {
 
 		String query = "UPDATE bankaccounts SET account_balance=? WHERE account_id=?";
 
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query)) {
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
 
 			statement.setDouble(1, newBalance);
 			statement.setLong(2, accountId);
@@ -61,8 +58,8 @@ public class BankAccountDaoImpl implements BankAccountDao {
 		String query = "DELETE FROM bankaccounts WHERE account_id=" + accountId;
 		int result;
 
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query)) {
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			result = statement.executeUpdate();
 			if (result == 1)
 				return true;
@@ -76,8 +73,8 @@ public class BankAccountDaoImpl implements BankAccountDao {
 	public boolean addNewBankAccount(BankAccount account) {
 		String query = "INSERT INTO bankaccounts (customer_name,account_type,account_balance) VALUES (?,?,?)";
 
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query)) {
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
 
 			statement.setString(1, account.getAccountHolderName());
 			statement.setString(2, account.getAccountType());
@@ -85,7 +82,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
 
 			int result = statement.executeUpdate();
 			if (result > 0) {
-				//System.out.println("Your account created successfully...");
+				// System.out.println("Your account created successfully...");
 				return true;
 			}
 
@@ -100,8 +97,8 @@ public class BankAccountDaoImpl implements BankAccountDao {
 		String query = "SELECT * FROM bankaccounts";
 		List<BankAccount> accountList = new ArrayList<BankAccount>();
 
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query);
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query);
 				ResultSet result = statement.executeQuery()) {
 
 			while (result.next()) {
@@ -109,7 +106,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
 				String accountHolderName = result.getString(2);
 				String accountType = result.getString(3);
 				double accountBalance = result.getDouble(4);
-				BankAccount account = new BankAccount(accountId,accountHolderName,accountType,accountBalance);
+				BankAccount account = new BankAccount(accountId, accountHolderName, accountType, accountBalance);
 				accountList.add(account);
 			}
 		} catch (SQLException e) {
@@ -122,48 +119,49 @@ public class BankAccountDaoImpl implements BankAccountDao {
 	@Override
 	public BankAccount searchBankAccount(long accountId) {
 		String query = "select * from bankaccounts where account_id=" + accountId;
-		BankAccount account = new BankAccount();
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query);
+		BankAccount account = null;
+
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query);
 				ResultSet result = statement.executeQuery()) {
-				
-			result.next();
+
+			if (result.next()) {
+
 				String accountHolderName = result.getString(2);
 				String accountType = result.getString(3);
 				double accountBalance = result.getDouble(4);
-				account = new BankAccount(accountId,accountHolderName,accountType,accountBalance);
-				
-			
+				account = new BankAccount(accountId, accountHolderName, accountType, accountBalance);
+
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		
 
-	}
+		}
 		return account;
 	}
 
 	@Override
 	public boolean updateAccount(BankAccount account1) {
-		String query = "UPDATE bankaccounts SET customer_name = ?, account_type = ? where account_id=" + account1.getAccountId();
-		
-		try (Connection connection = DbUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query)) {
-			
+		String query = "UPDATE bankaccounts SET customer_name = ?, account_type = ? where account_id="
+				+ account1.getAccountId();
+
+		Connection connection = DbUtil.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+
 			statement.setString(1, account1.getAccountHolderName());
 			statement.setString(2, account1.getAccountType());
-	
 
 			int result = statement.executeUpdate();
 			if (result > 0) {
-				//System.out.println("Your account created successfully...");
+				// System.out.println("Your account created successfully...");
 				return true;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 }
-

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.capgemini.bankapp.exception.AccountIdNotMatchException;
 import com.capgemini.bankapp.exception.LowBalanceException;
 import com.capgemini.bankapp.model.BankAccount;
 import com.capgemini.bankapp.service.BankAccountService;
@@ -16,7 +17,7 @@ public class BankAccountClient {
 	// in between () we can fully qualified class name
 	static final Logger logger = Logger.getLogger(BankAccountClient.class);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AccountIdNotMatchException {
 
 		int choice;
 		int choice1;
@@ -27,6 +28,7 @@ public class BankAccountClient {
 		String accountHolderName;
 		String accountType;
 		double accountBalance;
+		BankAccount account;
 		BankAccountService bankService = new BankAccountServiceImpl();
 
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -46,7 +48,7 @@ public class BankAccountClient {
 					accountType = reader.readLine();
 					System.out.println("Enter account balance :");
 					accountBalance = Double.parseDouble(reader.readLine());
-					BankAccount account = new BankAccount(accountHolderName, accountType, accountBalance);
+					 account = new BankAccount(accountHolderName, accountType, accountBalance);
 
 					if (bankService.addNewBankAccount(account)) {
 						System.out.println("Your account created successfully");
@@ -58,8 +60,13 @@ public class BankAccountClient {
 				case 2:
 					System.out.println("Enter account id :");
 					accountId = Long.parseLong(reader.readLine());
+					try {
 					balance = bankService.checkBalance(accountId);
 					System.out.println(balance);
+					}
+					catch(AccountIdNotMatchException e) {
+						logger.error("Account doesn't exist: ",e);
+					}
 					break;
 
 				case 3:
@@ -81,8 +88,13 @@ public class BankAccountClient {
 					accountId = Long.parseLong(reader.readLine());
 					System.out.println("Enter amount :");
 					accountBalance = Double.parseDouble(reader.readLine());
+					try {
 					balance = bankService.deposit(accountId, accountBalance);
 					System.out.println("Your Updated balance is :" + balance);
+					}
+					catch(AccountIdNotMatchException e) {
+						logger.error("Account doesn't exist: ",e);
+					}
 					break;
 
 				case 5:
@@ -95,7 +107,7 @@ public class BankAccountClient {
 					try {
 						balance = bankService.fundTransfer(accountId, accountId1, accountBalance);
 						System.out.println(balance);
-					} catch (LowBalanceException e) {
+					} catch (AccountIdNotMatchException| LowBalanceException e) {
 						logger.error("Exception :", e);
 					}
 
@@ -104,17 +116,25 @@ public class BankAccountClient {
 				case 6:
 					System.out.println("Enter account id :");
 					accountId = Long.parseLong(reader.readLine());
+					try {
 					if (bankService.deleteBankAccount(accountId))
 						System.out.println("Account deleted successfully");
-					else
-						System.out.println("Acoount not exist");
+					}
+					catch(AccountIdNotMatchException e) {
+						logger.error("Account doesn't exist: ",e);
+					}
 					break;
 
 				case 7:
 					System.out.println("Enter account id :");
 					accountId = Long.parseLong(reader.readLine());
+					try {
 					BankAccount bankaccount = bankService.searchBankAccount(accountId);
 					System.out.println(bankaccount);
+					}
+					catch(AccountIdNotMatchException e) {
+						logger.error("Account doesn't exist: ",e);
+					}
 					break;
 
 				case 8:
@@ -127,20 +147,25 @@ public class BankAccountClient {
 				case 9:
 					System.out.println("Enter account id :");
 					accountId = Long.parseLong(reader.readLine());
-					BankAccount bankaccount1 = bankService.searchBankAccount(accountId);
-					System.out.println(bankaccount1);
+				
+					try {
+						account = bankService.searchBankAccount(accountId);
+					if(account.getAccountHolderName() != null)
+						System.out.println(account);
+					
 
-					accountId = bankaccount1.getAccountId();
+					accountId =account.getAccountId();
 					System.out.println("Enter your new name :");
 					accountHolderName = reader.readLine();
 					System.out.println("Enter your new account type:");
 					accountType = reader.readLine();
-					accountBalance = bankaccount1.getAccountBalance();
+					accountBalance = account.getAccountBalance();
 					BankAccount account1 = new BankAccount(accountId,accountHolderName, accountType, accountBalance);
 					if (bankService.updateAccount(account1)) {
 						System.out.println("Your account updated successfully");
-					} else {
-						System.out.println("Failed to update account...");
+					} }
+					catch(AccountIdNotMatchException e) {
+						logger.error("Account doesn't exist: ",e);
 					}
 					break;
 
@@ -154,7 +179,7 @@ public class BankAccountClient {
 				}
 			}
 		} catch (IOException e) {
-			// logger.error(e);
+			logger.error(e);
 		}
 	}
 

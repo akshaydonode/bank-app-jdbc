@@ -8,43 +8,69 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 
+import com.capgemini.bankapp.client.BankAccountClient;
 
 public class DbUtil {
+
+	static Connection connection;
+	static final Logger logger = Logger.getLogger(DbUtil.class);
 
 	private static String dburl;
 	private static String username;
 	private static String password;
-	
+
 	public static Connection getConnection() {
-		Connection connection = null;
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
+			if(connection == null) {
+			connection = DriverManager.getConnection(dburl, username, password);
+			connection.setAutoCommit(false);
+			}
+		} catch (ClassNotFoundException e) {
 
-			 connection = DriverManager.getConnection(dburl, username, password);
-		}catch (ClassNotFoundException e) {
-	
 			System.out.println("Driver Class not found");
-		}catch (SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return connection;
 	}
 	
+	
+	public static void commit() {
+		try {
+			if(connection != null)
+				connection.commit();
+		}catch (SQLException e) {
+			logger.error("SQLException ",e);
+		}
+	}
+	
+	public static void rollback() {
+		try {
+			if(connection != null)
+				connection.rollback();
+		}catch (SQLException e) {
+			logger.error("SQLException ",e);
+		}
+	}
+
 	static {
 		try {
 			File propertiesFile = new File("dbConfig.properties");
 			FileReader reader = new FileReader(propertiesFile);
-			
+
 			Properties properties = new Properties();
 			properties.load(reader);
 			reader.close();
-			
+
 			dburl = properties.getProperty("dburl");
 			username = properties.getProperty("username");
 			password = properties.getProperty("password");
-		}catch (IOException e) {
+		} catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

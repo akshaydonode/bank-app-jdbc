@@ -27,3 +27,69 @@
 	at com.capgemini.bankapp.dao.impl.BankAccountDaoImpl.getBalance(BankAccountDaoImpl.java:31)
 	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.checkBalance(BankAccountServiceImpl.java:21)
 	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:61)
+2019-03-28 11:55:55 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.LowBalanceException: You don't have sufficient fund..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdrawForFundTransfer(BankAccountServiceImpl.java:109)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:75)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:97)
+2019-03-28 11:55:55 - 16 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Exception :
+ com.capgemini.bankapp.exception.LowBalanceException: You don't have sufficient fund..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdrawForFundTransfer(BankAccountServiceImpl.java:109)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:75)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:97)
+2019-03-28 11:56:49 - 53837 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankABccount doesn't exist..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.deposit(BankAccountServiceImpl.java:53)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:76)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:97)
+2019-03-28 14:09:45 - 1 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankABccount doesn't exist..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.deposit(BankAccountServiceImpl.java:53)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:76)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:97)
+2019-03-28 18:24:46 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: Account doesn't exist
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.checkBalance(BankAccountServiceImpl.java:31)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:62)
+2019-03-28 18:28:25 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: Account doesn't exist
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.checkBalance(BankAccountServiceImpl.java:31)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:63)
+2019-03-28 18:28:25 - 0 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Account doesn't exist: 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: Account doesn't exist
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.checkBalance(BankAccountServiceImpl.java:31)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:63)
+2019-03-28 18:49:04 - 0 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Account doesn't exist: 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankABccount doesn't exist..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.deposit(BankAccountServiceImpl.java:62)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:91)
+2019-03-28 18:51:43 - 0 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Account doesn't exist: 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankAccount doesn't exist...
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.deleteBankAccount(BankAccountServiceImpl.java:77)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:119)
+2019-03-28 18:52:25 - 42016 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankABccount doesn't exist..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdrawForFundTransfer(BankAccountServiceImpl.java:111)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:84)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:107)
+2019-03-28 19:01:14 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankAccount doesn't exist..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdrawForFundTransfer(BankAccountServiceImpl.java:99)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:84)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:107)
+2019-03-28 19:01:14 - 16 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Exception :
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankAccount doesn't exist..
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.withdrawForFundTransfer(BankAccountServiceImpl.java:99)
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.fundTransfer(BankAccountServiceImpl.java:84)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:107)
+2019-03-28 19:10:40 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception
+ 2019-03-28 19:10:41 - 16 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Account doesn't exist: 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankAccount doesn't exist
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.searchBankAccount(BankAccountServiceImpl.java:133)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:131)
+2019-03-28 19:12:55 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception
+ 2019-03-28 19:19:28 - 0 - [main] ERROR com.capgemini.bankapp.util.DbUtil  - Exception
+ 2019-03-28 19:19:28 - 0 - [main] ERROR com.capgemini.bankapp.client.BankAccountClient  - Account doesn't exist: 
+ com.capgemini.bankapp.exception.AccountIdNotMatchException: BankAccount doesn't exist
+	at com.capgemini.bankapp.service.impl.BankAccountServiceImpl.searchBankAccount(BankAccountServiceImpl.java:133)
+	at com.capgemini.bankapp.client.BankAccountClient.main(BankAccountClient.java:152)
